@@ -121,7 +121,7 @@ $(function() {
             });      
          });
 
-         it('content changes when new feed loaded', function(){
+         it('content changes when new feed loaded', function(done){
             loadFeed(0, function() {
                 //assign contents at index 0 to oldContent
                 oldContent = $('.feed').contents();
