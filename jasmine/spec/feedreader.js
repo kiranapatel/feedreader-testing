@@ -26,9 +26,8 @@ $(function() {
             expect(allFeeds.length).not.toBe(0);
         });
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a URL defined
-         * and that the URL is not empty.
+        /* this tests to make sure that in allfeed object, 
+         * url has been defined and it is not empty.
          */
         it('has URL', function() {
             allFeeds.forEach(function(feed){
@@ -37,12 +36,9 @@ $(function() {
             })
         });
 
-        /* TODO: Write a test that loops through each feed
-         * in the allFeeds object and ensures it has a name defined
-         * and that the name is not empty.
+        /* this tests to make sure that in allfeed object, 
+         * name has been defined and it is not empty.
          */
-
-
         it('has name', function() {
             allFeeds.forEach(function(feed){
                 expect(feed.name).toBeDefined();
@@ -52,24 +48,22 @@ $(function() {
     });
 
 
-    /* TODO: Write a new test suite named "The menu" */
+    /* test suite named "The menu" */
 
     describe('The Menu', function() {
 
-        /* TODO: Write a test that ensures the menu element is
-         * hidden by default. You'll have to analyze the HTML and
-         * the CSS to determine how we're performing the
-         * hiding/showing of the menu element.
+        /* this test ensures that the menu element is
+         * hidden by default. jquery's hasClass() method 
+         * use to grab class name for test.
          */
 
         it('hidden by default', function() {
             expect($('body').hasClass('menu-hidden')).toBe(true);
         });        
 
-         /* TODO: Write a test that ensures the menu changes
-          * visibility when the menu icon is clicked. This test
-          * should have two expectations: does the menu display when
-          * clicked and does it hide when clicked again.
+        /* this test ensures that the menu element change its
+         * visibility on click event. true on menu-hidden class or 
+         * false on no menu-hidden class in body tag.
         */
 
         it('change visibility', function(){
@@ -81,54 +75,55 @@ $(function() {
 
     });
 
-    /* TODO: Write a new test suite named "Initial Entries" */
+    /* test suite named "Initial Entries" */
 
     describe('Initial Entries', function() {
 
-        /* TODO: Write a test that ensures when the loadFeed
+        /* test that ensures when the loadFeed
          * function is called and completes its work, there is at least
          * a single .entry element within the .feed container.
-         * Remember, loadFeed() is asynchronous so this test will require
+         * loadFeed() is asynchronous so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
 
          beforeEach(function(done) {
-            loadFeed(0, function() {
+            loadFeed(0, function(){
                 done();
             });    
          });
 
+         // test .entry length to be grater than 0.
          it('should have atleast one entry', function(){
-            expect($('.entry').length).toBeGreaterThan(0);
+            expect($('.feed.entry').length).toBeGreaterThan(0);
          });
 
     });
 
-    /* TODO: Write a new test suite named "New Feed Selection" */
+    /* test suite named "New Feed Selection" */
     describe('New Feed Selection', function() {
 
-        /* TODO: Write a test that ensures when a new feed is loaded
+        /* to ensures when a new feed is loaded
          * by the loadFeed function that the content actually changes.
-         * Remember, loadFeed() is asynchronous.
+         * loadFeed() is asynchronous. so this test will require
+         * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-         var oldContent, newContent;
+         var oldContent;
 
          beforeEach(function(done) {
-            loadFeed(1, function() {
-                //assign contents at index 1 to newContent
-                newContent = $('.feed').contents();
-                done();
-            });      
-         });
-
-         it('content changes when new feed loaded', function(done){
+            //oldContent
             loadFeed(0, function() {
                 //assign contents at index 0 to oldContent
                 oldContent = $('.feed').contents();
-                done();
+                //newContent
+                loadFeed(1, function(){
+                    done();
+                });    
             });
+        });
+
+        it('content changes when new feed loaded', function(){
             //expectation new content not equal to old content
-            expect(newContent).not.toEqual(oldContent);
-         });
+            expect($('.feed')).not.toEqual(oldContent);
+        });
     });
 }());
