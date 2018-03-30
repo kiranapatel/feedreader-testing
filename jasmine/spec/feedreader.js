@@ -94,7 +94,7 @@ $(function() {
 
          // test .entry length to be grater than 0.
          it('should have atleast one entry', function(){
-            expect($('.feed.entry').length).toBeGreaterThan(0);
+            expect($('.feed .entry').length).toBeGreaterThan(0);
          });
 
     });
@@ -107,23 +107,25 @@ $(function() {
          * loadFeed() is asynchronous. so this test will require
          * the use of Jasmine's beforeEach and asynchronous done() function.
          */
-         var oldContent;
+         var oldContent, newContent;
 
          beforeEach(function(done) {
             //oldContent
             loadFeed(0, function() {
-                //assign contents at index 0 to oldContent
-                oldContent = $('.feed').contents();
-                //newContent
-                loadFeed(1, function(){
-                    done();
-                });    
+                //assign contents at index 0 to oldContent variable
+                oldContent = $('.feed').html();
+                done();
             });
         });
 
-        it('content changes when new feed loaded', function(){
-            //expectation new content not equal to old content
-            expect($('.feed')).not.toEqual(oldContent);
+        it('content changes when new feed loaded', function(done){
+            //newContent
+            loadFeed(1, function(){
+                newContent = $('.feed').html();  
+                //expectation new content not equal to old content
+                expect(newContent).not.toEqual(oldContent);
+                done();
+            });  
         });
     });
 }());
